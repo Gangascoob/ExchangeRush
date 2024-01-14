@@ -12,7 +12,11 @@ public class CompanyA : MonoBehaviour
     private int diceRoll;
     private float timeCounter = 0.0f;
 
+    public int totalStock = 0;
+    public int stockWorth;
+
     [SerializeField] private TextMeshProUGUI textDisplay;
+    [SerializeField] private TextMeshProUGUI stockDisplay;
     
 
     // Start is called before the first frame update
@@ -54,6 +58,7 @@ public class CompanyA : MonoBehaviour
         stockPrice += Random.Range(20, 50);
         Debug.Log(stockPrice);
         textDisplay.text = "$" + stockPrice.ToString();
+        UpdateWorth();
     }
 
     private void DecreasePrice()
@@ -61,5 +66,36 @@ public class CompanyA : MonoBehaviour
         stockPrice -= Random.Range(20, 50);
         Debug.Log(stockPrice);
         textDisplay.text = "$" + stockPrice.ToString();
+        UpdateWorth();
+    }
+
+    public void BuyStock(int number)
+    {
+        totalStock += number;
+        DisplayStock();
+    }
+
+    public void SellStock(int number)
+    {
+        if(totalStock >= number)
+        {
+            totalStock -= number;
+        }
+        else if(totalStock < number)
+        {
+            totalStock = 0;
+        }
+        DisplayStock();
+    }
+
+    private void DisplayStock()
+    {
+        stockDisplay.text = totalStock.ToString();
+    }
+
+    private void UpdateWorth()
+    {
+        stockWorth = totalStock * stockPrice;
+        Debug.Log(stockWorth);
     }
 }

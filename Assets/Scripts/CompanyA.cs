@@ -6,7 +6,7 @@ using TMPro;
 public class CompanyA : MonoBehaviour
 {
 
-    public int stockPrice;
+    public int stockPrice = 1000;
 
     private int updateTime = 10;
     private int diceRoll;
@@ -17,6 +17,8 @@ public class CompanyA : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI textDisplay;
     [SerializeField] private TextMeshProUGUI stockDisplay;
+
+    [SerializeField] private BankController bank;
     
 
     // Start is called before the first frame update
@@ -71,21 +73,35 @@ public class CompanyA : MonoBehaviour
 
     public void BuyStock(int number)
     {
-        totalStock += number;
-        DisplayStock();
+        int balanceCheck = bank.ReturnBalance();
+        int costCheck = number * stockPrice;
+
+        if(balanceCheck >= costCheck)
+        {
+            totalStock += number;
+            bank.ExchangeLiquid((-1 * costCheck));
+            DisplayStock();
+        }
+        UpdateWorth();
+
     }
 
     public void SellStock(int number)
     {
+
+        int saleValue = number * stockPrice;
+
         if(totalStock >= number)
         {
             totalStock -= number;
+            bank.ExchangeLiquid(saleValue);
         }
         else if(totalStock < number)
         {
             totalStock = 0;
         }
         DisplayStock();
+        UpdateWorth();
     }
 
     private void DisplayStock()
@@ -97,5 +113,6 @@ public class CompanyA : MonoBehaviour
     {
         stockWorth = totalStock * stockPrice;
         Debug.Log(stockWorth);
+        bank.UpdateCompanyA(stockWorth);
     }
 }

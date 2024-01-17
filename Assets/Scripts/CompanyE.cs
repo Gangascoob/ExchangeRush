@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CompanyA : MonoBehaviour
+public class CompanyE : MonoBehaviour
 {
 
-    public int stockPrice = 1000;
+    private int stockPrice = 1000;
 
-    private int updateTime = 10;
+    private int updateTime = 9;
     private int diceRoll;
     private float timeCounter = 0.0f;
 
@@ -32,7 +32,7 @@ public class CompanyA : MonoBehaviour
     void Update()
     {
         timeCounter += Time.deltaTime;
-        if(timeCounter > 10f)
+        if(timeCounter > updateTime)
         {
             Debug.Log("Update Started");
             StartCoroutine(UpdatePrice());
@@ -58,7 +58,7 @@ public class CompanyA : MonoBehaviour
 
     private void IncreasePrice()
     {
-        stockPrice += Random.Range(20, 50);
+        stockPrice += Random.Range(65, 100);
         Debug.Log(stockPrice);
         textDisplay.text = "$" + stockPrice.ToString();
         UpdateWorth();
@@ -66,7 +66,7 @@ public class CompanyA : MonoBehaviour
 
     private void DecreasePrice()
     {
-        stockPrice -= Random.Range(20, 50);
+        stockPrice -= Random.Range(50, 90);
         Debug.Log(stockPrice);
         textDisplay.text = "$" + stockPrice.ToString();
         UpdateWorth();
@@ -102,7 +102,6 @@ public class CompanyA : MonoBehaviour
             int sellAllValue = totalStock * stockPrice;
             bank.ExchangeLiquid(sellAllValue);
             totalStock = 0;
-            
         }
         DisplayStock();
         UpdateWorth();
@@ -117,6 +116,6 @@ public class CompanyA : MonoBehaviour
     {
         stockWorth = totalStock * stockPrice;
         Debug.Log(stockWorth);
-        bank.UpdateCompanyA(stockWorth);
+        bank.UpdateCompanyE(stockWorth);
     }
 }

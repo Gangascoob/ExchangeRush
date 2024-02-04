@@ -119,4 +119,9 @@ public class CompanyA : MonoBehaviour
         Debug.Log(stockWorth);
         bank.UpdateCompanyA(stockWorth);
     }
+
+    public int ReturnStockPrice()
+    {
+        return stockPrice;
+    }
 }
